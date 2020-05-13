@@ -1,6 +1,4 @@
 #include "Human.h"
-#include <cstdlib>
-#include <ctime>
 #include <iostream>
 using namespace std;
 
@@ -27,12 +25,12 @@ void Human::setXY()
     int yCoor;
     char letter;
 
-    cout << "Enter the x coordinate: ";
+    cout << "Enter the letter coordinate: ";
     letter = validateLetterInput();
 
     xCoor = convertLetter(letter); //converts letter to number
 
-    cout << "Enter the y coordinate: ";
+    cout << "Enter the number coordinate: ";
     yCoor = validateNumInput();
 
     Xinput = xCoor;
@@ -109,8 +107,8 @@ int Human::validateNumInput()
 
 char Human::validateLetterInput()
 {
-    int letter;
-    while(!(cin >> letter) || letter < 'A' || letter > 'J')
+    char letter;
+    while(!(cin >> letter) ||  toupper(letter) > 'J')
     {
         cout << "Error letter must be in range of A - J" << endl;
         cout << "Enter again: ";

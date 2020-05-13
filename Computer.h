@@ -1,5 +1,7 @@
 #ifndef COMPUTER_H
 #define COMPUTER_H
+#include <cstdlib>
+#include <ctime>
 #include "Player.h"
 #include "GameBoard.h"
 #include "Ships.h"
@@ -28,7 +30,6 @@ class Computer : public Player
     //Native functions for Computer class
         int getZeroNine();//generates random 0 - 9 for x and y coor
 
-        bool getIsVert();
 
         bool setVertical();//generates 1 for vertical or 0 for hoizontal sets isVertical var
 

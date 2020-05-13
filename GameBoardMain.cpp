@@ -14,8 +14,12 @@ int main()
 
         Player *ptrComputer = new Computer;
 
-        ptrHuman->displayBoard();
+        //ptrHuman->displayBoard();
 
-        ptrHuman->setShips();
+        //ptrHuman->setShips();
+
+
+        ptrComputer->setShips();
+        ptrComputer->displayBoard();
   
 }

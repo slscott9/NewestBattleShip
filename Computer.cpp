@@ -5,7 +5,9 @@ using namespace std;
 
 //constructor
 Computer::Computer()
-{
+{   
+    srand((unsigned) time(0));
+
    for (int x = 0; x < MAXNUMSHIPS; x++) //sets each ship instance variables 
     {
         Ships[x].setAll(ShipNames[x], ShipAbrev[x], ShipSizes[x]);
@@ -18,7 +20,6 @@ Computer::Computer()
         }
     }
 
-    setVertical();
     
 }
 
@@ -32,10 +33,7 @@ int Computer::getZeroNine()
     return randomNumber;
 }
 
-bool Computer::getIsVert()
-{
-    return isVertical;
-}
+
 
 
 bool Computer::setVertical()
@@ -117,11 +115,12 @@ void Computer::setShips()
             good = true;
 
             setXY(); //sets X, Y, and Vertical
+            setVertical();
 
             if(getIsVertical())
             {   
                  Xdirection = XNOCHANGE;
-                if((getX() + Ships[ship].getShipSize()-1) > 9)
+                if((getY() + Ships[ship].getShipSize()-1) > 9)
                 {   
                      Ydirection = UP;
                 }
@@ -135,7 +134,7 @@ void Computer::setShips()
             {   
                  Ydirection = YNOCHANGE;
 
-                if((getY() + Ships[ship].getShipSize()-1) > 9)
+                if((getX() + Ships[ship].getShipSize()-1) > 9)
                 {   
                      Xdirection = LEFT;
                 }
