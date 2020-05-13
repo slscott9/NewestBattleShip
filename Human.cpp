@@ -6,7 +6,6 @@ using namespace std;
 
 Human::Human()
 {
-    setXY();
     for (int x = 0; x < MAXNUMSHIPS; x++) //sets each ship instance variables 
     {
         Ships[x].setAll(ShipNames[x], ShipAbrev[x], ShipSizes[x]);
@@ -50,9 +49,9 @@ void Human::setShips()
             int x = Ships[ship].getShipXCoor(coorIndex);
             int y = Ships[ship].getShipYCoor(coorIndex);
 
-            Board.fillBoard(x, y, ship);
+            Board.fillBoard(x, y, Ships[ship].getShipAbrev());
 
-            Board.displayBoard();  
+            displayBoard();  
         }
     }
 }
@@ -99,5 +98,5 @@ bool Human::boardIsShipsHit(int xCoor, int yCoor, int numShipSetup)
 
 void Human::displayBoard()
 {
-    Board.displayBoard();
+    Board.showBoard();
 }

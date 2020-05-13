@@ -34,7 +34,6 @@ class Human : public Player
 
         bool boardIsShipsHit(int, int, int);
 
-        void displayBoard();
 
     //display function
         void displayBoard();

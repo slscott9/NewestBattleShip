@@ -96,7 +96,7 @@ bool Computer::boardIsShipsHit(int xCoor, int yCoor, int numShipSetup)
 
 void Computer::displayBoard()
 {
-    Board.displayBoard();
+    Board.showBoard();
 }
 
 void Computer::setShips()

@@ -1,0 +1,53 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "shell",
+			"label": "C/C++: g++.exe build active file",
+			"command": "C:\\MinGW\\bin\\g++.exe",
+			"args": [
+				"-g",
+				"${file}",
+				"-o",
+				"${fileDirname}\\${fileBasenameNoExtension}.exe"
+			],
+			"options": {
+				"cwd": "C:\\MinGW\\bin"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		},
+		{
+            "type": "shell",
+            "label": "C/C++: g++.exe build active file GAME",
+            "command": "C:\\MinGW\\bin\\g++.exe",
+            "args": [
+                "-g",
+                "${fileDirname}\\GameBoardMain.cpp",
+				"${fileDirname}\\GameBoard.cpp",
+				"${fileDirname}\\Ships.cpp",
+				"${fileDirname}\\Player.cpp",
+				"${fileDirname}\\Human.cpp",
+				"${fileDirname}\\Computer.cpp",
+
+                "-o",
+                "${fileDirname}\\game.exe"
+            ],
+            "options": {
+                "cwd": "C:\\MinGW\\bin"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+	]
+}

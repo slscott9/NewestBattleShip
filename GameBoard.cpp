@@ -9,7 +9,7 @@ GameBoard::GameBoard()
     
 }
 
-void GameBoard::displayBoard()
+void GameBoard::showBoard()
 {   
     cout << '\t'; //tabs header number over
 

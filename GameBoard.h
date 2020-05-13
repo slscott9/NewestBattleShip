@@ -26,7 +26,7 @@ class GameBoard
 
 
     //This function displays the game board
-        void displayBoard();
+        void showBoard();
         
 
         void fillBoard(int, int, char);
