@@ -20,8 +20,7 @@ class GameBoard
 
 
         Ship Ships[MAXNUMSHIPS]; //contains each ship
-        Player player;
-        Player Computer;
+    
 
         
 
@@ -33,16 +32,11 @@ class GameBoard
     //constructor
         GameBoard();
     
-    //setters to set p1 ships on board and computer ships on the board
-        void setP1ships();
-        void setCompShips();
 
     //function check if the computer is off the board or if spot is filled
         bool offBoardPositive(int, int);
         bool isXYfilled(int xpos, int ypos);
 
-    //function to reset all player variables isvertical, x, and y
-        void resetPlayerVars(Player &);
 
     //This function displays the game board
         void displayBoard();
@@ -50,6 +44,21 @@ class GameBoard
 
     //function to check board for all ships
         bool boardIsShipsHit(int, int, int);
+
+    //new functions
+        int getShipSize(int);
+
+        std::string getShipName(int);
+
+        void setShipCoor(int, int, int, int);
+
+        int getShipXCoor(int, int);
+
+        int getShipYCoor(int, int);
+
+        char getShipAbrev(int);
+
+        void fillBoard(int, int, int);
 };
 
 #endif

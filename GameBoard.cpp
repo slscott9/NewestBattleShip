@@ -1,7 +1,6 @@
 #include "GameBoard.h"
 #include <iostream>
 #include <iomanip>
-
 using namespace std;
 
 //constructor fills the gameboard with astericks
@@ -43,124 +42,6 @@ void GameBoard::displayBoard()
     }
 }
 
-//function to fill the board with ship positions
-
-
-
-//function to set all of player one's ships coordinates
-void GameBoard::setP1ships()
-{
-    for (int ship = 0; ship < MAXNUMSHIPS; ship++)
-    {   
-        cout << Ships[ship].getShipName() << endl;
-        cout << "-------------------" << endl;
-        for(int coorIndex = 0; coorIndex < Ships[ship].getShipSize(); coorIndex++)
-        {
-            player.setXYinput();
-            Ships[ship].setCoor(player.returnX(), player.returnY(), coorIndex);
-
-            int x = Ships[ship].getShipXCoor(coorIndex);
-            int y = Ships[ship].getShipYCoor(coorIndex);
-
-            Board[y][x] = Ships[ship].getShipAbrev();
-            displayBoard();  
-        }
-    }
-}
-
-void GameBoard::setCompShips()
-{   
-    enum xDir {RIGHT = 1, XNOCHANGE = 0, LEFT = -1};
-    enum yDir {DOWN = 1, YNOCHANGE = 0, UP = -1};
-
-    xDir Xdirection = RIGHT;
-    yDir Ydirection = DOWN;
-
-    int shipsSetup = 0;
-
-    for(int ship = 0; ship < MAXNUMSHIPS; ship++)
-    {   
-        bool good = true;
-        do
-        {   
-            good = true;
-
-            Computer.setCompXY(); //x and y randomly chosen
-            Computer.setVertical(); //verticle is chosen 0 for horizontal 1 for vertical
-
-            if(Computer.getIsVert())
-            {   
-                 Xdirection = XNOCHANGE;
-                if((Computer.returnY() + Ships[ship].getShipSize()-1) > 9)
-                {   
-                     Ydirection = UP;
-                }
-                else
-                {
-                    Ydirection = DOWN;
-                }
-                
-            }
-            else
-            {   
-                 Ydirection = YNOCHANGE;
-                if((Computer.returnX() + Ships[ship].getShipSize() - 1) > 9)
-                {   
-                     Xdirection = LEFT;
-                }
-                else
-                {
-                    Xdirection = RIGHT;
-                }
-                
-            }//end if vertical
-
-            int x = Computer.returnX();
-            int y = Computer.returnY();
-
-            for(int coor = 0; coor < Ships[ship].getShipSize(); coor++)
-            {   
-                if(boardIsShipsHit(x,y,shipsSetup))
-                {
-                    good = false;
-                    cout << "         In nested for loop if statement for is a hit" << endl;
-                    break;
-                }
-                else
-                {   
-                     y+=Ydirection;
-                     x+=Xdirection;
-                }
-                
-            }//end nested for
-            
-            if(good)
-            {   
-                x = Computer.returnX();
-                y = Computer.returnY();
-                for(int coor = 0; coor < Ships[ship].getShipSize(); coor++)
-                {
-                    Ships[ship].setCoor(x,y,coor);
-                    Board[y][x] = Ships[ship].getShipAbrev();
-                   
-                    y+=Ydirection;
-                    x+=Xdirection;
-                }
-            }
-            //cin.get();
-
-        } while (!good);
-
-        shipsSetup++;
-
-        
-    }//end first for
-
-}//end of function
-
-
-
-
 //function uses Ships class setCoor function to set a ship and a single coordinate
 //use this in a loop in gameboard
 bool GameBoard::offBoardPositive(int index, int coor)
@@ -171,8 +52,6 @@ bool GameBoard::offBoardPositive(int index, int coor)
     }
     return false;
 }
-
-
 
 
 bool GameBoard::boardIsShipsHit(int xCoor, int yCoor, int numShipSetup)
@@ -186,4 +65,46 @@ bool GameBoard::boardIsShipsHit(int xCoor, int yCoor, int numShipSetup)
         }
     }
     return false;
+}
+
+
+
+//new functions
+
+int GameBoard::getShipSize(int index)
+{
+    return Ships[index].getShipSize();
+}
+
+string GameBoard::getShipName(int index)
+{
+    return Ships[index].getShipName();
+}
+
+void GameBoard::setShipCoor(int ship, int xCoor, int yCoor, int index)
+{
+    Ships[ship].setCoor(xCoor, yCoor, index);
+
+}
+
+int GameBoard::getShipXCoor(int ship, int index)
+{
+    return Ships[ship].getShipXCoor(index);
+}
+
+
+int GameBoard::getShipYCoor(int ship, int index)
+{
+    return Ships[ship].getShipYCoor(index);
+}
+
+
+char GameBoard::getShipAbrev(int ship)
+{
+    return Ships[ship].getShipAbrev();
+}
+
+void GameBoard::fillBoard(int xCoor, int yCoor, int ship)
+{
+    Board[yCoor][xCoor] = getShipAbrev(ship);
 }
