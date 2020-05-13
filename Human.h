@@ -40,7 +40,11 @@ class Human : public Player
 
 
     //validation functions
-        int validateCoor();
+        int validateNumInput();
+        char validateLetterInput();
+
+    //converts letter to number for x coordinates
+        int convertLetter(char);
 
 
 };

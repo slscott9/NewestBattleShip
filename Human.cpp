@@ -25,11 +25,15 @@ void Human::setXY()
 {       
     int xCoor;
     int yCoor;
+    char letter;
 
     cout << "Enter the x coordinate: ";
-    xCoor = validateCoor();
+    letter = validateLetterInput();
+
+    xCoor = convertLetter(letter); //converts letter to number
+
     cout << "Enter the y coordinate: ";
-    yCoor = validateCoor();
+    yCoor = validateNumInput();
 
     Xinput = xCoor;
     Yinput = yCoor;
@@ -68,18 +72,7 @@ int Human ::getY()
 }
 
 
-int Human::validateCoor()
-{
-    int coor;
-    while(!(cin >> coor) || coor < 0 || coor > 9)
-    {
-        cout << "Error coordinate must be in the range of 0 - 9" << endl;
-        cout << "Enter again: ";
-        cin.clear();
-        cin.ignore();
-    }
-    return coor;
-}
+
 
 
 bool Human::boardIsShipsHit(int xCoor, int yCoor, int numShipSetup)
@@ -99,4 +92,43 @@ bool Human::boardIsShipsHit(int xCoor, int yCoor, int numShipSetup)
 void Human::displayBoard()
 {
     Board.showBoard();
+}
+
+int Human::validateNumInput()
+{
+    int coor;
+    while(!(cin >> coor) || coor < 0 || coor > 9)
+    {
+        cout << "Error coordinate must be in the range of 0 - 9" << endl;
+        cout << "Enter again: ";
+        cin.clear();
+        cin.ignore();
+    }
+    return coor;
+}
+
+char Human::validateLetterInput()
+{
+    int letter;
+    while(!(cin >> letter) || letter < 'A' || letter > 'J')
+    {
+        cout << "Error letter must be in range of A - J" << endl;
+        cout << "Enter again: ";
+        cin.clear();
+        cin.ignore();
+    }
+    return letter;
+}
+
+int Human::convertLetter(char letter)
+{
+    char letters[10] = {'A','B','C','D','E','F','G','H','I','J'};
+
+    for(int index = 0; index < 10; index++)
+    {
+        if(toupper(letter) == letters[index])
+        {
+            return index;
+        }
+    }
 }
