@@ -6,13 +6,25 @@ using namespace std;
 //constructor
 Computer::Computer()
 {
-    Xinput = 0;
-    Yinput = 0;
+   for (int x = 0; x < MAXNUMSHIPS; x++) //sets each ship instance variables 
+    {
+        Ships[x].setAll(ShipNames[x], ShipAbrev[x], ShipSizes[x]);
+    }
+    for (int row = 0; row < ROWS; row++)
+    {
+        for (int col = 0; col < COLS; col++)
+        {
+            Board.fillBoard(col, row, ' ');
+        }
+    }
+
+    setVertical();
     
 }
 
 
 //functions native to computer class
+
 int Computer::getZeroNine()
 {   
     int randomNumber = (rand() % 10) + 0;
@@ -41,12 +53,20 @@ bool Computer::setVertical()
     
 }
 
+bool Computer::getIsVertical()
+{
+    return isVertical;
+}
 
-void Computer::setXYVert()
+
+
+
+//redefined virtual functions from Player base class
+
+void Computer::setXY()
 {
     Xinput = getZeroNine();
     Yinput = getZeroNine();
-    setVertical();
 }
 
 int Computer::getX()
@@ -56,16 +76,28 @@ int Computer::getX()
 
 int Computer::getY()
 {
-    return Yinput
+    return Yinput;
 }
 
-bool Computer::getIsVertical()
+
+
+bool Computer::boardIsShipsHit(int xCoor, int yCoor, int numShipSetup)
+{   
+    cout << "                 x coor is " << xCoor << " y coor is " << yCoor << " num ships setup is " << numShipSetup << endl;
+    for(int ship = 0; ship < numShipSetup; ship++)
+    {
+        if(Ships[ship].isHit(xCoor, yCoor))
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+void Computer::displayBoard()
 {
-    return isVertical;
+    Board.displayBoard();
 }
-
-
-
 
 void Computer::setShips()
 {
@@ -89,7 +121,7 @@ void Computer::setShips()
             if(getIsVertical())
             {   
                  Xdirection = XNOCHANGE;
-                if((getX() + board.getShipSize(ship)-1) > 9)
+                if((getX() + Ships[ship].getShipSize()-1) > 9)
                 {   
                      Ydirection = UP;
                 }
@@ -103,7 +135,7 @@ void Computer::setShips()
             {   
                  Ydirection = YNOCHANGE;
 
-                if((getY() + board.getShipSize(ship)-1) > 9)
+                if((getY() + Ships[ship].getShipSize()-1) > 9)
                 {   
                      Xdirection = LEFT;
                 }
@@ -117,7 +149,7 @@ void Computer::setShips()
             int x = getX();
             int y = getY();
 
-            for(int coor = 0; coor < board.getShipSize(ship); coor++)
+            for(int coor = 0; coor < Ships[ship].getShipSize(); coor++)
             {   
                 if(boardIsShipsHit(x,y,shipsSetup))//THIS IS WHERE YOU STOPPEDDD
                 {
@@ -135,12 +167,12 @@ void Computer::setShips()
             
             if(good)
             {   
-                x = Computer.returnX();
-                y = Computer.returnY();
+                x = getX();
+                y = getY();
                 for(int coor = 0; coor < Ships[ship].getShipSize(); coor++)
                 {
                     Ships[ship].setCoor(x,y,coor);
-                    Board[y][x] = Ships[ship].getShipAbrev();
+                    Board.fillBoard(x,y, Ships[ship].getShipAbrev());
                    
                     y+=Ydirection;
                     x+=Xdirection;
@@ -155,3 +187,6 @@ void Computer::setShips()
         
     }//end first for
 }
+
+
+
