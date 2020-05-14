@@ -11,6 +11,7 @@ class Player
         virtual bool boardIsShipsHit(int, int) = 0;
 
         virtual void displayBoard() = 0;
+        virtual bool isWinner() = 0;
 
 };
 

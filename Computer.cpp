@@ -209,3 +209,13 @@ void Computer::setShips()
 
 
 
+bool Computer::isWinner()
+{   
+    cout << "Computer's hits " << endl;
+    for(int ship = 0; ship < MAXNUMSHIPS; ship++)
+    {   
+        cout << Ships[ship].getShipName() << "hit count is " <<  Ships[ship].getHitCount() << endl;
+         cout << Ships[ship].getShipName() <<  "is sunk is "  << Ships[ship].getIsSunk() << endl;;
+
+    }
+}

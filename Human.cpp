@@ -141,7 +141,7 @@ int Human::validateNumInput() //validation function
 char Human::validateLetterInput()//validation function
 {
     char letter;
-    while(!(cin >> letter) ||  toupper(letter) > 'J')
+    while(!(cin >> letter) || toupper(letter) < 'A' || toupper(letter) > 'J')
     {
         cout << "Error letter must be in range of A - J" << endl;
         cout << "Enter again: ";
@@ -183,3 +183,13 @@ void Human::setHitMarker(int x, int y, bool hit)
 
 
 
+bool Human::isWinner()
+{   
+    cout << "Human's hits" << endl;
+    for(int ship = 0; ship < MAXNUMSHIPS; ship++)
+    {   
+        cout << Ships[ship].getShipName() << "hit count is " <<  Ships[ship].getHitCount() << endl;
+         cout << Ships[ship].getShipName() <<  "is sunk is "  << Ships[ship].getIsSunk() << endl;
+
+    }
+}

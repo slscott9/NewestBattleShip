@@ -51,6 +51,9 @@ class Computer : public Player
 
         void displayBoard();
 
+                bool isWinner();
+
+
 };
 
 #endif 

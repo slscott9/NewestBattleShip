@@ -65,15 +65,16 @@ int main()
         cout << endl << "Press enter key to begin: ";
         cin.get();
         cout << endl << endl;
-        
+
         ptrPlayer->setShips();
         cout << "-----------------------------------------------------------------------------------" << endl;
-        cout << endl << endl << "The computer will now set it's ships, press enter to continue: ";
+        cout << "The computer will now set it's ships, press enter to continue: ";
         cin.get();
 
-        ptrComputer->setXY();
         ptrComputer->setShips();
 
+        cin.ignore();
+        cout << endl;
         cout << "*COMPUTER SHIPS SET*" << endl;
         cout << "**READY FOR WAR** " << endl;
         cout << "-----------------------------------------------------------------------------------" << endl << endl;
@@ -117,7 +118,7 @@ int main()
                 cin.ignore(); //lets cin.get work properly 
 
                 
-                cout << "Coordinates set ready press enter to fire: ";
+                cout << "Coordinates set press enter to fire: ";
                 cin.get();
 
                 if(ptrComputer->boardIsShipsHit(ptrPlayer->getX(), ptrPlayer->getY()))
@@ -142,7 +143,10 @@ int main()
                 }
 
                 
-                
+                ptrPlayer->isWinner();
+                cout << endl << endl;
+                ptrComputer->isWinner();
+    
 
         } while (!gameOver);
         

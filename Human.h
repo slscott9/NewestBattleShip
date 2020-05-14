@@ -52,12 +52,13 @@ class Human : public Player
     //converts letter to number for x coordinates
         int convertLetter(char);
 
-    
-
 
     //if players shot is a hit on the computer's board this function fill the players
     //board with a hit to show him where he hit on the computers board.
         void setHitMarker(int, int, bool);
+
+    //virtual function to check for winner
+        bool isWinner();
 
 
 
