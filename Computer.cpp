@@ -20,7 +20,7 @@ Computer::Computer()
         }
     }
 
-    
+    GameStarted = false;
 }
 
 
@@ -81,10 +81,9 @@ int Computer::getY()
 
 bool Computer::boardIsShipsHit(int xCoor, int yCoor, int numShipSetup)
 {   
-    cout << "                 x coor is " << xCoor << " y coor is " << yCoor << " num ships setup is " << numShipSetup << endl;
     for(int ship = 0; ship < numShipSetup; ship++)
     {
-        if(Ships[ship].isHit(xCoor, yCoor))
+        if(Ships[ship].isHit(xCoor, yCoor, GameStarted))
         {
             return true;
         }
@@ -92,17 +91,37 @@ bool Computer::boardIsShipsHit(int xCoor, int yCoor, int numShipSetup)
     return false;
 }
 
+bool Computer::boardIsShipsHit(int xCoor, int yCoor)//redefined virtual and overloaded
+{   
+    for(int ship = 0; ship < MAXNUMSHIPS; ship++)
+    {
+        if(Ships[ship].isHit(xCoor, yCoor, GameStarted))
+        {   
+            Board.fillBoard(xCoor, yCoor, 'H');
+            return true;
+        }
+    }
+    return false;
+}
+
+
+
+
+
 void Computer::displayBoard()
 {
     Board.showBoard();
 }
 
 void Computer::setShips()
-{
+{   
+    
+    //enum class will tell the  direction we should go
+    //based on isVertical.
     enum xDir {RIGHT = 1, XNOCHANGE = 0, LEFT = -1};
     enum yDir {DOWN = 1, YNOCHANGE = 0, UP = -1};
 
-    xDir Xdirection = RIGHT;
+    xDir Xdirection = RIGHT; //defaults
     yDir Ydirection = DOWN;
 
     int shipsSetup = 0;
@@ -153,7 +172,6 @@ void Computer::setShips()
                 if(boardIsShipsHit(x,y,shipsSetup))//THIS IS WHERE YOU STOPPEDDD
                 {
                     good = false;
-                    cout << "         In nested for loop if statement for is a hit" << endl;
                     break;
                 }
                 else
@@ -177,14 +195,16 @@ void Computer::setShips()
                     x+=Xdirection;
                 }
             }
-            //cin.get();
 
         } while (!good);
 
         shipsSetup++;
+            
 
-        
-    }//end first for
+    }//end ship for loop
+
+    GameStarted = true; //When this function is done the ships will be set
+                        //and game is ready to start
 }
 
 

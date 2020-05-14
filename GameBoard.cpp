@@ -32,13 +32,18 @@ void GameBoard::showBoard()
     }
 }
 
-
+bool GameBoard::isXYfilled(int x, int y)
+{
+    if(Board[y][x] != ' ')
+    {
+        return true;
+    }
+}
 
 void GameBoard::fillBoard(int xCoor, int yCoor, char fillChar)
 {
     Board[yCoor][xCoor] = fillChar;
 }
-
 
 
 

@@ -86,20 +86,28 @@ int Ship::getShipYCoor(int index)
 }
 
 
-bool Ship::isHit(int Xshot, int Yshot)
+bool Ship::isHit(int Xshot, int Yshot, bool GameStarted)
 {
     for(int x = 0; x < ShipSize; x++)
     {
         if(shipXCoor[x] == Xshot && shipYCoor[x] == Yshot)
-        {
-            //ShipHitsArray[x] = true;
-            //HitCount++;
-            /*if(HitCount == ShipSize)
+        {   
+            if(GameStarted)
             {
-                IsSunk = true;
-            }*/
+                ShipHitsArray[x] = true;
+                HitCount++;
+                if(HitCount == ShipSize)
+                {
+                    IsSunk = true;
+                }
+
+            }//end nested if
+            
             return true;
-        }
-    }
+
+        }//end if 
+
+    }//end for loop
+    
     return false;
 }

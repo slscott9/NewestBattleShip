@@ -21,8 +21,6 @@ class GameBoard
         GameBoard();
     
 
-    //function check if the computer is off the board or if spot is filled
-        bool offBoardPositive(int, int);
         bool isXYfilled(int xpos, int ypos);
 
 
@@ -31,6 +29,9 @@ class GameBoard
         
 
         void fillBoard(int, int, char);
+
+
+
 
 
 

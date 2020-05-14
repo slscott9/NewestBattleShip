@@ -9,6 +9,7 @@
 class Computer : public Player
 {
     private:
+        bool GameStarted;
         int Xinput;
         int Yinput;
         bool isVertical;
@@ -45,6 +46,8 @@ class Computer : public Player
         int getY();
 
         bool boardIsShipsHit(int, int, int); //redefined virtual function
+                bool boardIsShipsHit(int, int); //virtual overloaded from player
+
 
         void displayBoard();
 

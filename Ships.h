@@ -7,14 +7,17 @@
 class Ship
 {
     private:
-    //vars for ship characteristics
-        bool ShipHitsArray[MAXNUMSHIPS];
-        int shipXCoor[MAXNUMSHIPS];
-        int shipYCoor[MAXNUMSHIPS];
-
+    //ship characteristics
         std::string ShipName;
         char shipAbrev;
         int ShipSize;
+
+    //ship location X and Y
+        int shipXCoor[MAXNUMSHIPS];
+        int shipYCoor[MAXNUMSHIPS];
+
+    //ship damage
+        bool ShipHitsArray[MAXNUMSHIPS];
         bool IsSunk;
         int HitCount;
 
@@ -50,7 +53,7 @@ class Ship
         int getShipYCoor(int);
         
     //function to check if a hit
-                bool isHit(int , int);
+                                bool isHit(int , int, bool);
 
 };
 
