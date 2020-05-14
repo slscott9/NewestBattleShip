@@ -185,11 +185,20 @@ void Human::setHitMarker(int x, int y, bool hit)
 
 bool Human::isWinner()
 {   
-    cout << "Human's hits" << endl;
+
+    int total = 0;
     for(int ship = 0; ship < MAXNUMSHIPS; ship++)
     {   
-        cout << Ships[ship].getShipName() << "hit count is " <<  Ships[ship].getHitCount() << endl;
-         cout << Ships[ship].getShipName() <<  "is sunk is "  << Ships[ship].getIsSunk() << endl;
-
+       if(Ships[ship].getIsSunk())
+       {
+           total++;
+       }
+        
     }
+    if(total == 5)
+    {   
+        cout << "THE COMPUTER WON YOUR SHIPS ARE ALL SUNK" << endl;
+        return true;
+    }
+    return false;
 }

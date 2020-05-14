@@ -62,10 +62,62 @@ bool Computer::getIsVertical()
 //redefined virtual functions from Player base class
 
 void Computer::setXY()
-{
+{   
+    if(shipInArea)
+    {
+
+    }
     Xinput = getZeroNine();
     Yinput = getZeroNine();
 }
+
+void Computer::smartChoice()
+{
+    int x = getX();
+    int y = getY();
+    enum xDir {RIGHT = 1, XNOCHANGE = 0, LEFT = -1};
+    enum yDir {DOWN = 1, YNOCHANGE = 0, UP = -1};
+    xDir xdirection;
+    yDir ydirection;
+
+    if(locatedHit)
+    {   
+        //x stays same y goes down
+        xdirection = XNOCHANGE;
+        ydirection = DOWN;
+        Xinput = xdirection;
+        Yinput +=ydirection;
+        locatedHit = false;
+    }
+    if(!locatedHit)
+    {
+        Xinput = XhitCoor;
+        Yinput = YhitCoor++;
+    }
+    
+
+    locatedHit = false;
+}
+
+void setXleft(bool left)
+{
+    if(left)
+    {
+        xLeft = true;
+    }
+    setXleft = false;
+}
+
+bool Computer::getShipInArea()
+{
+    return shipInArea;
+}
+
+bool Computer::getLocatedHit()
+{
+    return locatedHit;
+}
+
 
 int Computer::getX()
 {
@@ -214,8 +266,28 @@ bool Computer::isWinner()
     cout << "Computer's hits " << endl;
     for(int ship = 0; ship < MAXNUMSHIPS; ship++)
     {   
-        cout << Ships[ship].getShipName() << "hit count is " <<  Ships[ship].getHitCount() << endl;
-         cout << Ships[ship].getShipName() <<  "is sunk is "  << Ships[ship].getIsSunk() << endl;;
+        int total = 0;
+        for(int ship = 0; ship < MAXNUMSHIPS; ship++)
+        {   
+            if(Ships[ship].getIsSunk())
+            {
+                total++;
+            }
+        
+        }
+        if(total == 5)
+        {   
+            cout << "YOU WON!!" << endl;
+            return true;
+        }
+        return false;
 
     }
 }
+
+bool Computer::setLocatedHit()
+{
+    locatedHit = true;
+    shipInArea = true;
+}
+

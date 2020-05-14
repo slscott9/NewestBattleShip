@@ -72,6 +72,7 @@ int main()
         cin.get();
 
         ptrComputer->setShips();
+        ptrComputer->displayBoard();
 
         cin.ignore();
         cout << endl;
@@ -97,11 +98,15 @@ int main()
 
                 ptrComputer->setXY();
                 if(ptrPlayer->boardIsShipsHit(ptrComputer->getX(), ptrComputer->getY()))
-                {
+                {       
+                        Comp.setLocatedHit();
+                        Comp.setXhitCoor();
+                        Comp.setYhitCoor();
                         cout << endl << endl << "COMPUTER HIT YOUR SHIP!" << endl;
                 }
                 else
-                {
+                {       
+                        
                         cout << endl << endl << "COMPUTER SHOT MISSED" << endl;
                 }
                 
@@ -143,9 +148,15 @@ int main()
                 }
 
                 
-                ptrPlayer->isWinner();
-                cout << endl << endl;
-                ptrComputer->isWinner();
+                if(ptrComputer->isWinner())
+                {
+                        gameOver = true;
+                }
+                else if(ptrPlayer->isWinner())
+                {
+                        gameOver = true;
+                }
+
     
 
         } while (!gameOver);

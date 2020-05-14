@@ -13,6 +13,15 @@ class Computer : public Player
         int Xinput;
         int Yinput;
         bool isVertical;
+        bool locatedHit;
+        bool shipInArea;
+    //variables to tell if the direction we go in is not a hit
+        bool xLeft;
+        //xRight, yUp, yDown;
+
+    //variables to hold the original x and y hit
+        int XhitCoor;
+        int YhitCoor;
 
     //aggregate class instances
         GameBoard Board;
@@ -46,13 +55,32 @@ class Computer : public Player
         int getY();
 
         bool boardIsShipsHit(int, int, int); //redefined virtual function
-                bool boardIsShipsHit(int, int); //virtual overloaded from player
+        bool boardIsShipsHit(int, int); //virtual overloaded from player
 
 
         void displayBoard();
 
-                bool isWinner();
+        bool isWinner();
 
+        bool setLocatedHit();
+        bool getLocatedHit();
+        bool getShipInArea();
+
+        void smartChoice();
+
+
+        //functions to set x and y hit coordinates
+            void setXhitCoor();
+            void setYhitCoor();
+
+            int getXhitCoor();
+            int getYhitCoor();
+
+        //function to set xLeft xRight yup, ydown
+            void setXleft(bool);
+            void setXright(bool);
+            void setYup(bool);
+            void setYdown(bool);
 
 };
 
