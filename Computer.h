@@ -16,8 +16,7 @@ class Computer : public Player
         bool locatedHit;
         bool shipInArea;
     //variables to tell if the direction we go in is not a hit
-        bool xLeft;
-        //xRight, yUp, yDown;
+        bool xLeft,xRight, yUp, yDown;
 
     //variables to hold the original x and y hit
         int XhitCoor;
@@ -61,17 +60,19 @@ class Computer : public Player
         void displayBoard();
 
         bool isWinner();
-
-        bool setLocatedHit();
+    
+    //smart functions to determine a shot area
+        bool setLocatedHit(bool);
+        bool setShipInArea();
         bool getLocatedHit();
         bool getShipInArea();
 
-        void smartChoice();
+        void smartChoice();//smart function that tests each direction
 
 
         //functions to set x and y hit coordinates
-            void setXhitCoor();
-            void setYhitCoor();
+            void setXhitCoor(int);
+            void setYhitCoor(int);
 
             int getXhitCoor();
             int getYhitCoor();

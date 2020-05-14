@@ -91,6 +91,7 @@ int main()
 
         do
         {      bool hit = false;
+                int hitCount = 0;
                 cout << "Computer is picking coordinates" << endl << endl;
                 cout << "Computer has fired shot" << endl;
                 cout << "Press enter to continue: ";
@@ -99,17 +100,33 @@ int main()
                 ptrComputer->setXY();
                 if(ptrPlayer->boardIsShipsHit(ptrComputer->getX(), ptrComputer->getY()))
                 {       
-                        Comp.setLocatedHit();
-                        Comp.setXhitCoor();
-                        Comp.setYhitCoor();
+                        cout << "In computer hit your ship if" << " x is " << ptrComputer->getX() << " y is " << ptrComputer->getY() << endl;
+                        hit = true;
+                        Comp.setShipInArea(); // ship in area is true
+                        hitCount++;
+                        if(hitCount == 2)
+                        {
+                                Comp.setLocatedHit(hit); //if count is 2 we have good direction
+                        }
+                        
+                        //Comp.setLocatedHit(hit);//located hit is true
+                        Comp.setXhitCoor(ptrComputer->getX());
+                        Comp.setYhitCoor(ptrComputer->getY());
                         cout << endl << endl << "COMPUTER HIT YOUR SHIP!" << endl;
                 }
                 else
                 {       
-                        
+                        //if else hit was false
+                        hit = false;
+                        Comp.setLocatedHit(hit);//located hit is false
+
                         cout << endl << endl << "COMPUTER SHOT MISSED" << endl;
                 }
                 
+                        //Comp.setXleft(hit); //x left set to false
+                        //Comp.setXright(hit);
+                        //Comp.setYdown(hit);
+                        //Comp.setYup(hit);
 
                 ptrPlayer->displayBoard();
 

@@ -19,6 +19,10 @@ Computer::Computer()
             Board.fillBoard(col, row, ' ');
         }
     }
+    xLeft = false;
+    xRight = false;
+    yUp = false;
+    yDown = false;
 
     GameStarted = false;
 }
@@ -32,6 +36,13 @@ int Computer::getZeroNine()
 
     return randomNumber;
 }
+
+
+bool Computer::getIsVertical()
+{
+    return isVertical;
+}
+
 
 
 
@@ -51,12 +62,6 @@ bool Computer::setVertical()
     
 }
 
-bool Computer::getIsVertical()
-{
-    return isVertical;
-}
-
-
 
 
 //redefined virtual functions from Player base class
@@ -65,48 +70,157 @@ void Computer::setXY()
 {   
     if(shipInArea)
     {
-
+        smartChoice();
     }
     Xinput = getZeroNine();
     Yinput = getZeroNine();
 }
 
+
 void Computer::smartChoice()
 {
-    int x = getX();
-    int y = getY();
-    enum xDir {RIGHT = 1, XNOCHANGE = 0, LEFT = -1};
-    enum yDir {DOWN = 1, YNOCHANGE = 0, UP = -1};
-    xDir xdirection;
-    yDir ydirection;
-
-    if(locatedHit)
-    {   
-        //x stays same y goes down
-        xdirection = XNOCHANGE;
-        ydirection = DOWN;
-        Xinput = xdirection;
-        Yinput +=ydirection;
-        locatedHit = false;
-    }
-    if(!locatedHit)
-    {
-        Xinput = XhitCoor;
-        Yinput = YhitCoor++;
-    }
     
+    int loopCount = 0;
+    int hitCount = 0;
+    if (!locatedHit)//if true we have not going in the right direction
+    {   
+            if(loopCount == 1)
+            {
+                xRight = false;
+            }
+            else if(loopCount == 2)
+            {
+                xLeft = false;
+            }
+            else if(loopCount == 3)
+            {
+                yDown = false;
+            }
+            else if(loopCount == 4)
+            {
+                yUp = false;
+            }
+            
+        if(xRight && xLeft && yUp && yDown)
+        {
+            Xinput = XhitCoor++; //x goes right
+            Yinput = YhitCoor;
+            loopCount++;
+        }
+        else if(!xRight)
+        {
+            Xinput = XhitCoor--;// x goes left
+            Yinput = YhitCoor;
 
-    locatedHit = false;
-}
+            loopCount++;
+        }
+        else if(!xRight && !xLeft)
+        {
+            Xinput = XhitCoor;
+            Yinput = YhitCoor++; // y goes down
+            loopCount++;
+        }
+        else if(!xRight && !xLeft && !yDown)
+        {
+            Xinput = XhitCoor;
+            Yinput = YhitCoor--; // y goes up
+            loopCount++;
 
-void setXleft(bool left)
+        }
+    }
+
+    else if (locatedHit) //if true we are going in the right direction
+    {   
+        if(loopCount == 1)
+        {
+            Xinput = XhitCoor++; //x goes right
+            Yinput = YhitCoor;
+        }
+        else if(loopCount == 2)
+        {
+            Xinput = XhitCoor--; //x goes left
+            Yinput = YhitCoor;
+        }
+        else if(loopCount == 3)
+        {
+            Xinput = XhitCoor;// y goes up
+            Yinput = YhitCoor--;
+        }
+        else if(loopCount == 4)
+        {
+            Xinput = XhitCoor;
+            Yinput = YhitCoor++; // y goes down
+        }
+    } //end else if locatedHit
+
+}//end function smartchoice
+
+
+
+
+
+void Computer::setXleft(bool left) //see if we should go left
 {
     if(left)
     {
         xLeft = true;
     }
-    setXleft = false;
+    xLeft = false;
 }
+
+void Computer::setXright(bool hit)
+{
+    if(hit)
+    {
+        xRight = true;
+    }
+    xRight = false;
+}
+
+void Computer::setYup(bool hit)
+{
+    if(hit)
+    {
+        yUp = true;
+    }
+    yUp = false;
+}
+
+void Computer::setYdown(bool hit)
+{
+    if(hit)
+    {
+        yDown = true;
+    }
+    yDown = false;
+}
+
+void Computer::setXhitCoor(int xCoor)
+{
+    XhitCoor = xCoor;
+}
+
+void Computer::setYhitCoor(int yCoor)
+{
+    YhitCoor = yCoor;
+}
+
+
+bool Computer::setLocatedHit(bool hit)
+{
+    if(hit)
+    {
+        locatedHit = true;
+    }
+    locatedHit = false;
+}
+
+bool Computer::setShipInArea()
+{
+   
+    shipInArea = true;
+}
+
 
 bool Computer::getShipInArea()
 {
@@ -285,9 +399,4 @@ bool Computer::isWinner()
     }
 }
 
-bool Computer::setLocatedHit()
-{
-    locatedHit = true;
-    shipInArea = true;
-}
 
