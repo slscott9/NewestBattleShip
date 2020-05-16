@@ -5,7 +5,9 @@
 #include "Ships.h"
 #include <iostream>
 using namespace std;
-
+void DisplayComputer();
+void DisplayUserPrompt(string);
+void CompSetupPrompt();
 
 int main()
 {   
@@ -67,14 +69,11 @@ int main()
         cout << endl << endl;
 
         ptrPlayer->setShips();
-        cout << "-----------------------------------------------------------------------------------" << endl;
-        cout << "The computer will now set it's ships, press enter to continue: ";
-        cin.get();
+
+        CompSetupPrompt(); // computer will not setup ship enter to continue
 
         ptrComputer->setShips();
-        ptrComputer->displayBoard();
 
-        cin.ignore();
         cout << endl;
         cout << "*COMPUTER SHIPS SET*" << endl;
         cout << "**READY FOR WAR** " << endl;
@@ -88,56 +87,75 @@ int main()
         cin.get();
 
         bool gameOver = false;
-
+        int misses = 0;
+        bool hit;
+       //START OF GAME*******
         do
-        {      bool hit = false;
+        {       
                 int hitCount = 0;
-                cout << "Computer is picking coordinates" << endl << endl;
-                cout << "Computer has fired shot" << endl;
-                cout << "Press enter to continue: ";
-                cin.get();
 
+                DisplayComputer(); //"computer is picking spots press enter to continue"
+
+                
+        /*this function sets the computer's x and y coordinates*/
                 ptrComputer->setXY();
+
+                //cout << "Computer chose Xinput " << ptrComputer->getX() << " Yinput " << ptrComputer->getY() << endl;
+
+
+
+        /**********************************************************************************************************************/
+                /*starts if statements to check if COMPUTER HIT computer 2's ship*/
+
                 if(ptrPlayer->boardIsShipsHit(ptrComputer->getX(), ptrComputer->getY()))
                 {       
-                        cout << "In computer hit your ship if" << " x is " << ptrComputer->getX() << " y is " << ptrComputer->getY() << endl;
-                        hit = true;
-                        Comp.setShipInArea(); // ship in area is true
+                        ptrPlayer->displayBoard();
+                        cout << endl;
+                        cout << "COMPUTER HIT YOUR SHIP " << PlayerOne.convertNum(ptrComputer->getX()) << ", " << ptrComputer->getY() << endl;
+                        Comp.FillASpot(ptrComputer->getX(), ptrComputer->getY(), 'H'); //fills computers board with hit shot
+                        PlayerOne.setHitMarker(ptrComputer->getX(), ptrComputer->getY(), 'H');
+
+
+
                         hitCount++;
-                        if(hitCount == 2)
-                        {
-                                Comp.setLocatedHit(hit); //if count is 2 we have good direction
-                        }
-                        
-                        //Comp.setLocatedHit(hit);//located hit is true
+                        Comp.setHitCount(hitCount);
+                        Comp.setShipInArea(); // ship in area is true
                         Comp.setXhitCoor(ptrComputer->getX());
                         Comp.setYhitCoor(ptrComputer->getY());
-                        cout << endl << endl << "COMPUTER HIT YOUR SHIP!" << endl;
+
                 }
                 else
                 {       
-                        //if else hit was false
-                        hit = false;
-                        Comp.setLocatedHit(hit);//located hit is false
+                        Comp.FillASpot(ptrComputer->getX(), ptrComputer->getY(), 'O'); //fills computers board with missed shot
 
-                        cout << endl << endl << "COMPUTER SHOT MISSED" << endl;
+                        if(Comp.getShipInArea())
+                        {
+                                misses++;
+                                Comp.setMissCount(misses);
+                        }
+
+                        cout << " COMPUTER SHOT MISSED" << endl;
+
                 }
-                
-                        //Comp.setXleft(hit); //x left set to false
-                        //Comp.setXright(hit);
-                        //Comp.setYdown(hit);
-                        //Comp.setYup(hit);
+                if(Comp.getMissCount() == 4)
+                {
+                        misses = 0;
+                        hitCount = 0;
+                }
+        /**************************************************************************************************************/
+
+
+                cout << endl;
+
+
+                //displays coordinates set press enter to continue
+                        DisplayUserPrompt(name);
 
                 ptrPlayer->displayBoard();
 
-                cout << endl << endl << PlayerOne.getPlayerName() << " prepare to select coordinates to fire on." << endl;
-
-                cout << "Press any key to continue: ";
-                cin.get();
-                cout << endl << "--------------------" << endl;
+                
                 ptrPlayer->setXY();
 
-                cin.ignore(); //lets cin.get work properly 
 
                 
                 cout << "Coordinates set press enter to fire: ";
@@ -146,7 +164,7 @@ int main()
                 if(ptrComputer->boardIsShipsHit(ptrPlayer->getX(), ptrPlayer->getY()))
                 {       
                         hit = true;
-                        PlayerOne.setHitMarker(ptrPlayer->getX(), ptrPlayer->getY(), hit);
+                        PlayerOne.setHitMarker(ptrPlayer->getX(), ptrPlayer->getY(), 'X');
                         ptrPlayer->displayBoard();
 
                         cout << endl << "COMPUTER SHIP HIT: " << PlayerOne.getLetter() << ", " << ptrPlayer->getY() << endl;
@@ -156,7 +174,7 @@ int main()
                 else
                 {       
                         hit = false;
-                        PlayerOne.setHitMarker(ptrPlayer->getX(), ptrPlayer->getY(), hit);
+                        PlayerOne.setHitMarker(ptrPlayer->getX(), ptrPlayer->getY(), 'O');
                         ptrPlayer->displayBoard();
 
                         cout << endl << "YOUR SHOT MISSED." << endl;
@@ -164,7 +182,6 @@ int main()
 
                 }
 
-                
                 if(ptrComputer->isWinner())
                 {
                         gameOver = true;
@@ -181,3 +198,27 @@ int main()
   
 }
 
+void DisplayComputer()
+{
+        cout << "Computer is picking coordinates" << endl << endl;
+                cout << "Computer has fired shot" << endl;
+                cout << "Press enter to continue: ";
+                cin.get();
+                cout << endl;
+}
+
+void DisplayUserPrompt(string name)
+{
+        cout << endl << endl<< name <<  " prepare to select coordinates to fire on." << endl;
+
+                cout << "Press any key to continue: ";
+                cin.get();
+                cout << endl << "--------------------" << endl;
+}
+
+void CompSetupPrompt()
+{
+        cout << "-----------------------------------------------------------------------------------" << endl;
+        cout << "The computer will now set it's ships, press enter to continue: " << endl;
+        cin.get();
+}

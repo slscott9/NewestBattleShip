@@ -31,7 +31,6 @@
                 "${fileDirname}\\GameBoardMain.cpp",
 				"${fileDirname}\\GameBoard.cpp",
 				"${fileDirname}\\Ships.cpp",
-				"${fileDirname}\\Player.cpp",
 				"${fileDirname}\\Human.cpp",
 				"${fileDirname}\\Computer.cpp",
 

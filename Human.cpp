@@ -13,6 +13,7 @@ Human::Human()
         for (int col = 0; col < COLS; col++)
         {
             Board.fillBoard(col, row, ' ');
+            MarkedBoard.fillBoard(col, row, ' ');
         }
     }
 
@@ -118,8 +119,11 @@ bool Human::boardIsShipsHit(int xCoor, int yCoor)//redefined virtual and overloa
 
 
 void Human::displayBoard() //redefined virtual of base abstract class Player
-{
+{   
+    cout << "YOUR SHIPS" << endl;
     Board.showBoard();
+    cout << endl << "YOUR HITMARKER BOARD" << endl;
+    MarkedBoard.showBoard();
 }
 
 
@@ -166,17 +170,34 @@ int Human::convertLetter(char letter)
     }
 }
 
-
-void Human::setHitMarker(int x, int y, bool hit)
-{   
-    if(hit)
+char Human::convertNum(int num)
+{
+    char letters[10] = {'A','B','C','D','E','F','G','H','I','J'};
+    
+    for(int index = 0; index < 10; index++)
     {
-        Board.fillBoard(x, y, 'X');
+        if(num == index)
+        {
+            return index;
+        }
+    }
+}
 
+
+void Human::setHitMarker(int x, int y, char ch)
+{   
+    if(ch == 'H')
+    {
+        Board.fillBoard(x, y, 'H');
+
+    }
+    else if(ch == 'X')
+    {
+        MarkedBoard.fillBoard(x, y, 'X');
     }
     else
     {
-        Board.fillBoard(x, y, 'O');
+        MarkedBoard.fillBoard(x, y, 'O');
     }
     
 }
@@ -202,3 +223,5 @@ bool Human::isWinner()
     }
     return false;
 }
+
+

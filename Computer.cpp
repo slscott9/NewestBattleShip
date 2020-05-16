@@ -17,19 +17,26 @@ Computer::Computer()
         for (int col = 0; col < COLS; col++)
         {
             Board.fillBoard(col, row, ' ');
+            MarkedBoard.fillBoard(col, row, ' ');
         }
     }
-    xLeft = false;
-    xRight = false;
-    yUp = false;
-    yDown = false;
+        shipInArea = false;
+        GameStarted = false;
+        Xinput = 0;
+        Yinput = 0;
+        isVertical = false;
+        shipInArea = false;
+        hitCount = 0;
+        missCount = 0;
 
-    GameStarted = false;
+
+    //variables to hold the original x and y hit
+        int XhitCoor = 0;
+        int YhitCoor = 0;
 }
 
-
 //functions native to computer class
-
+/****************************************************/
 int Computer::getZeroNine()
 {   
     int randomNumber = (rand() % 10) + 0;
@@ -37,15 +44,10 @@ int Computer::getZeroNine()
     return randomNumber;
 }
 
-
 bool Computer::getIsVertical()
 {
     return isVertical;
 }
-
-
-
-
 
 bool Computer::setVertical()
 {
@@ -61,175 +63,30 @@ bool Computer::setVertical()
     }
     
 }
+/****************************************************/
 
 
 
 //redefined virtual functions from Player base class
-
+/***************************************************/
 void Computer::setXY()
 {   
     if(shipInArea)
-    {
+    {   
+        cout << "in SHIPINAREA if" << endl;
         smartChoice();
     }
-    Xinput = getZeroNine();
-    Yinput = getZeroNine();
-}
-
-
-void Computer::smartChoice()
-{
-    
-    int loopCount = 0;
-    int hitCount = 0;
-    if (!locatedHit)//if true we have not going in the right direction
-    {   
-            if(loopCount == 1)
-            {
-                xRight = false;
-            }
-            else if(loopCount == 2)
-            {
-                xLeft = false;
-            }
-            else if(loopCount == 3)
-            {
-                yDown = false;
-            }
-            else if(loopCount == 4)
-            {
-                yUp = false;
-            }
-            
-        if(xRight && xLeft && yUp && yDown)
-        {
-            Xinput = XhitCoor++; //x goes right
-            Yinput = YhitCoor;
-            loopCount++;
-        }
-        else if(!xRight)
-        {
-            Xinput = XhitCoor--;// x goes left
-            Yinput = YhitCoor;
-
-            loopCount++;
-        }
-        else if(!xRight && !xLeft)
-        {
-            Xinput = XhitCoor;
-            Yinput = YhitCoor++; // y goes down
-            loopCount++;
-        }
-        else if(!xRight && !xLeft && !yDown)
-        {
-            Xinput = XhitCoor;
-            Yinput = YhitCoor--; // y goes up
-            loopCount++;
-
-        }
-    }
-
-    else if (locatedHit) //if true we are going in the right direction
-    {   
-        if(loopCount == 1)
-        {
-            Xinput = XhitCoor++; //x goes right
-            Yinput = YhitCoor;
-        }
-        else if(loopCount == 2)
-        {
-            Xinput = XhitCoor--; //x goes left
-            Yinput = YhitCoor;
-        }
-        else if(loopCount == 3)
-        {
-            Xinput = XhitCoor;// y goes up
-            Yinput = YhitCoor--;
-        }
-        else if(loopCount == 4)
-        {
-            Xinput = XhitCoor;
-            Yinput = YhitCoor++; // y goes down
-        }
-    } //end else if locatedHit
-
-}//end function smartchoice
-
-
-
-
-
-void Computer::setXleft(bool left) //see if we should go left
-{
-    if(left)
+    else
     {
-        xLeft = true;
+        Xinput = getZeroNine();
+        Yinput = getZeroNine(); 
+        while(checkMarkedBoard(Xinput, Yinput))
+        {
+            Xinput = getZeroNine();
+            Yinput = getZeroNine();
+        }
+           
     }
-    xLeft = false;
-}
-
-void Computer::setXright(bool hit)
-{
-    if(hit)
-    {
-        xRight = true;
-    }
-    xRight = false;
-}
-
-void Computer::setYup(bool hit)
-{
-    if(hit)
-    {
-        yUp = true;
-    }
-    yUp = false;
-}
-
-void Computer::setYdown(bool hit)
-{
-    if(hit)
-    {
-        yDown = true;
-    }
-    yDown = false;
-}
-
-void Computer::setXhitCoor(int xCoor)
-{
-    XhitCoor = xCoor;
-}
-
-void Computer::setYhitCoor(int yCoor)
-{
-    YhitCoor = yCoor;
-}
-
-
-bool Computer::setLocatedHit(bool hit)
-{
-    if(hit)
-    {
-        locatedHit = true;
-    }
-    locatedHit = false;
-}
-
-bool Computer::setShipInArea()
-{
-   
-    shipInArea = true;
-}
-
-
-bool Computer::getShipInArea()
-{
-    return shipInArea;
-}
-
-bool Computer::getLocatedHit()
-{
-    return locatedHit;
 }
 
 
@@ -245,7 +102,7 @@ int Computer::getY()
 
 
 
-bool Computer::boardIsShipsHit(int xCoor, int yCoor, int numShipSetup)
+bool Computer::boardIsShipsHit(int xCoor, int yCoor, int numShipSetup) //used to set up ships
 {   
     for(int ship = 0; ship < numShipSetup; ship++)
     {
@@ -263,25 +120,23 @@ bool Computer::boardIsShipsHit(int xCoor, int yCoor)//redefined virtual and over
     {
         if(Ships[ship].isHit(xCoor, yCoor, GameStarted))
         {   
-            Board.fillBoard(xCoor, yCoor, 'H');
+            //MarkedBoard.fillBoard(xCoor, yCoor, 'H');
             return true;
         }
     }
     return false;
 }
 
-
-
-
-
 void Computer::displayBoard()
-{
+{   
+    cout << "GAMEBOARD" << endl;
     Board.showBoard();
+    cout << endl << "MARKED BOARD " << endl;
+    MarkedBoard.showBoard();
 }
 
 void Computer::setShips()
 {   
-    
     //enum class will tell the  direction we should go
     //based on isVertical.
     enum xDir {RIGHT = 1, XNOCHANGE = 0, LEFT = -1};
@@ -313,7 +168,6 @@ void Computer::setShips()
                 {
                     Ydirection = DOWN;
                 }
-                
             }
             else
             {   
@@ -365,14 +219,12 @@ void Computer::setShips()
         } while (!good);
 
         shipsSetup++;
-            
-
+    
     }//end ship for loop
 
     GameStarted = true; //When this function is done the ships will be set
                         //and game is ready to start
 }
-
 
 
 bool Computer::isWinner()
@@ -387,7 +239,6 @@ bool Computer::isWinner()
             {
                 total++;
             }
-        
         }
         if(total == 5)
         {   
@@ -396,7 +247,194 @@ bool Computer::isWinner()
         }
         return false;
 
+    }//end for loop
+}
+/*************************************************************************/ //end virtual funcs
+
+
+void Computer::FillASpot(int x, int y, char shot)
+{   
+    if(shot == 'H')
+    {
+        MarkedBoard.fillBoard(x, y, 'H');
+
+    }
+    else
+    {
+        MarkedBoard.fillBoard(x, y, 'O');
+    }
+    
+}
+
+void Computer::showShipCoor()
+{
+    for(int ship = 0; ship < MAXNUMSHIPS; ship++)
+    {   
+        cout << Ships[ship].getShipName() << endl;
+        for(int coor = 0; coor < Ships[ship].getShipSize(); coor++)
+        {
+            cout << "X coor " << Ships[ship].getShipXCoor(coor) << endl;
+            cout << "Ycoor " << Ships[ship].getShipYCoor(coor) << endl;
+        }
+        cout << endl;
+    }
+}
+
+/******************* SMART CHOICE FUNCTION NATIVE *******************/
+
+void Computer::smartChoice()
+{   
+    //if in this function then a ship has been hit and shipinarea is true
+
+    enum xDir {RIGHT = 1, XNOCHANGE = 0, LEFT = -1};
+    enum yDir {DOWN = 1, YNOCHANGE = 0, UP = -1};
+
+    int x = getXhitCoor(); //getting the original hit cooordinates ever time
+    int y = getYhitCoor();
+
+    if (getMissCount() == 0) //x goes right
+    {   
+        setShipVertical(false);
+        cout << "in misscount = 0" << endl;
+        Xinput = x+=1;
+        Yinput = y;
+        
+
+    }
+    else if(getMissCount() == 1) //x goes left
+    {   
+        cout << "in misscount = 1" << endl;
+        setShipVertical(false);
+        Xinput = x-=1;
+        Yinput = y;
+
+        if(checkMarkedBoard(Xinput, Yinput) && !(getShipVertical()))
+        {
+            Xinput-=1;
+            Yinput = y;
+        }
+    }
+    else if(getMissCount() == 2) //y goes down
+    {   
+        cout << "in misscount = 2" << endl;
+        setShipVertical(true);
+        Xinput = x;
+        Yinput = y+=1;
+
+        if(checkMarkedBoard(Xinput, Yinput) && getShipVertical())
+        {
+            Xinput = x;
+            Yinput += 1;
+        }
+    }
+    else if(getMissCount() == 3) // y goes up
+    {   
+        cout << "in misscount = 3" << endl;
+        setShipVertical(true);
+        Xinput = x;
+        Yinput = y-=1;
+
+        if(checkMarkedBoard(Xinput, Yinput) && getShipVertical())
+        {
+            Xinput = x;
+            Yinput -=1;
+            
+        }
+    }
+    else if (getMissCount() > 3) //everything reset
+    {   
+        
+        shipInArea = false;
+        setMissCount(0);
+        setHitCount(0);
+        XhitCoor = 0;
+        YhitCoor = 0;
     }
 }
 
 
+void Computer::setShipVertical(bool vertical)
+{
+    if(vertical)
+    {
+        isShipVertical = true;
+    }
+    else
+    {
+        isShipVertical = false;
+    }
+    
+}
+
+bool Computer::getShipVertical()
+{
+    return isShipVertical;
+}
+//function checks for computer if his chosen shot is filled with a hit or miss
+bool Computer::checkMarkedBoard(int x, int y) //checks marked board for a shot or hit
+{
+    if(MarkedBoard.isXYfilled(x, y))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+    
+}
+
+void Computer::setMissCount(int misses)
+{
+    missCount = misses;
+}
+
+int Computer::getMissCount()
+{
+    return missCount;
+}
+
+
+void Computer::setXhitCoor(int xCoor)
+{
+    XhitCoor = xCoor;
+}
+
+void Computer::setYhitCoor(int yCoor)
+{
+    YhitCoor = yCoor;
+}
+
+int Computer::getXhitCoor()
+{
+    return XhitCoor;
+}
+
+int Computer::getYhitCoor()
+{
+    return YhitCoor;
+}
+
+void Computer::setHitCount(int tempHitCount)
+{
+   
+    hitCount+= tempHitCount;
+
+}
+
+int Computer::getHitCount()
+{
+    return hitCount;
+}
+
+
+bool Computer::setShipInArea()
+{
+      shipInArea = true;
+}
+
+
+bool Computer::getShipInArea()
+{   
+    return shipInArea;
+}

@@ -16,6 +16,7 @@ class Human : public Player
 
     //aggregate classes
         GameBoard Board;
+        GameBoard MarkedBoard;
         Ship Ships[MAXNUMSHIPS]; //contains each ship
 
     //arrays containing ship info
@@ -51,11 +52,12 @@ class Human : public Player
 
     //converts letter to number for x coordinates
         int convertLetter(char);
+        char convertNum(int);
 
 
     //if players shot is a hit on the computer's board this function fill the players
     //board with a hit to show him where he hit on the computers board.
-        void setHitMarker(int, int, bool);
+        void setHitMarker(int, int, char);
 
     //virtual function to check for winner
         bool isWinner();
