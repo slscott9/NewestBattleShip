@@ -122,6 +122,11 @@ int main()
                         Comp.setShipInArea(); // ship in area is true
                         Comp.setXhitCoor(ptrComputer->getX());
                         Comp.setYhitCoor(ptrComputer->getY());
+                        if(ptrComputer->isWinner())
+                        {
+                                cout << "THE COMPUTER WON";
+                                exit;
+                        }
 
                 }
                 else
@@ -170,6 +175,13 @@ int main()
                         cout << endl << "COMPUTER SHIP HIT: " << PlayerOne.getLetter() << ", " << ptrPlayer->getY() << endl;
 
                         cout << "A hit marker X, has been placed on your board" << endl;
+                        if(ptrPlayer->isWinner())
+                        {
+                                cout << "YOU WON!!";
+                                
+                                exit;
+                        }
+
                 }
                 else
                 {       
@@ -182,17 +194,7 @@ int main()
 
                 }
 
-                if(ptrComputer->isWinner())
-                {
-                        gameOver = true;
-                }
-                else if(ptrPlayer->isWinner())
-                {
-                        gameOver = true;
-                }
-
-    
-
+                
         } while (!gameOver);
         
   

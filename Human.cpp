@@ -173,12 +173,12 @@ int Human::convertLetter(char letter)
 char Human::convertNum(int num)
 {
     char letters[10] = {'A','B','C','D','E','F','G','H','I','J'};
-    
+
     for(int index = 0; index < 10; index++)
     {
         if(num == index)
         {
-            return index;
+            return letters[index];
         }
     }
 }
