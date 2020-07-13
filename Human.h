@@ -10,13 +10,11 @@ class Human : public Player
     private:
         std::string playerName;
         bool GameStarted; //will be set to false in constructor
-        int Xinput;
-        int Yinput;
+        int Xinput,Yinput;
         char letter;
 
     //aggregate classes
-        GameBoard Board;
-        GameBoard MarkedBoard;
+        GameBoard Board,MarkedBoard;
         Ship Ships[MAXNUMSHIPS]; //contains each ship
 
     //arrays containing ship info

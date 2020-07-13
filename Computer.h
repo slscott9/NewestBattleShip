@@ -9,24 +9,19 @@
 class Computer : public Player
 {
     private:
-        bool GameStarted;
-        int Xinput;
-        int Yinput;
-        bool isVertical;
+        bool GameStarted,isVertical;
+
+        int Xinput,Yinput;
 
 //smart shot variables
-        int hitCount;
-        int missCount;
-        bool shipInArea;
-        bool isShipVertical;
+        int hitCount,missCount;
+        bool shipInArea,isShipVertical;
 
     //variables to hold the original x and y hit
-        int XhitCoor;
-        int YhitCoor;
+        int XhitCoor,YhitCoor;
 
     //aggregate class instances
-        GameBoard Board;
-        GameBoard MarkedBoard;
+        GameBoard Board,MarkedBoard;
         Ship Ships[MAXNUMSHIPS]; //contains each ship
 
 

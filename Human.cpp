@@ -34,8 +34,7 @@ std::string Human::getPlayerName()
 
 void Human::setXY() //redefined virtual of base abstract class Player
 {       
-    int xCoor;
-    int yCoor;
+    int xCoor,yCoor;
     char templetter;
 
     cout << "Enter an alphabetic coordinate: ";
